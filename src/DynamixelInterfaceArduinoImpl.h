@@ -4,7 +4,9 @@
 
 #include "DynamixelInterface.h"
 #include <Arduino.h>
+#ifdef ARDYNO_USE_SOFTWARE_SERIAL
 #include <SoftwareSerial.h>
+#endif
 
 template<class T>
 class DynamixelInterfaceImpl:public DynamixelInterface
@@ -80,6 +82,7 @@ class HardwareDynamixelInterface:public DynamixelInterfaceImpl<HardwareSerial>
 	HardwareDynamixelInterface(HardwareSerial &aSerial, uint8_t aDirectionPin=NO_DIR_PORT);
 	~HardwareDynamixelInterface();
 };
+#ifdef ARDYNO_USE_SOFTWARE_SERIAL
 
 class SoftwareDynamixelInterface:public DynamixelInterfaceImpl<SoftwareSerial>
 {
@@ -89,6 +92,6 @@ class SoftwareDynamixelInterface:public DynamixelInterfaceImpl<SoftwareSerial>
 	private:
 	SoftwareSerial mSoftSerial;
 };
-
+#endif
 
 #endif

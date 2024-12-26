@@ -169,8 +169,9 @@ void DynamixelInterfaceImpl<T>::end()
 }
 
 template class DynamixelInterfaceImpl<HardwareSerial>;
+#ifdef ARDYNO_USE_SOFTWARE_SERIAL
 template class DynamixelInterfaceImpl<SoftwareSerial>;
-
+#endif
 //determine txpin number from hardware serial interface
 uint8_t TxPinFromHardwareSerial(const HardwareSerial &aSerial)
 {
@@ -201,6 +202,7 @@ HardwareDynamixelInterface::HardwareDynamixelInterface(HardwareSerial &aSerial, 
 HardwareDynamixelInterface::~HardwareDynamixelInterface()
 {}
 
+#ifdef ARDYNO_USE_SOFTWARE_SERIAL
 
 SoftwareDynamixelInterface::SoftwareDynamixelInterface(uint8_t aRxPin, uint8_t aTxPin, uint8_t aDirectionPin):
 	DynamixelInterfaceImpl(mSoftSerial, aTxPin, aDirectionPin),
@@ -209,6 +211,7 @@ SoftwareDynamixelInterface::SoftwareDynamixelInterface(uint8_t aRxPin, uint8_t a
 
 SoftwareDynamixelInterface::~SoftwareDynamixelInterface()
 {}
+#endif
 
 
 template<class T>
@@ -271,6 +274,7 @@ void setWriteMode<HardwareSerial>(HardwareSerial &aStream, uint8_t mTxPin)
 
 #endif
 
+#ifdef ARDYNO_USE_SOFTWARE_SERIAL
 template<>
 void setReadMode<SoftwareSerial>(SoftwareSerial &aStream, uint8_t mTxPin)
 {
@@ -284,4 +288,4 @@ void setWriteMode<SoftwareSerial>(SoftwareSerial &aStream, uint8_t mTxPin)
 	aStream.stopListening();
 	pinMode(mTxPin, OUTPUT);
 }
-
+#endif
